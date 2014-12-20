@@ -1,0 +1,66 @@
+---
+title: "PML - Course Project"
+author: "Jordi Casas"
+date: "Saturday, December 20, 2014"
+output: html_document
+---
+
+**Background**
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset). 
+
+
+**Objective**
+
+Generate model to predict class attribute that represents the manner in which people does the exercise. Dataset provided is formed by 160 variables and 19622 instances.
+
+Prediction is divided in 5 classes: A B C D E
+
+
+
+**Data analysis and attribute selection**
+
+Due the high number of attributes, I reviewed which attributes aren't not representative. For example, there are attributes like avg_roll_belt that 19216 of 19622 instances are NA. After performing this analysis, I generated a new dataset formed by 57 attributes.
+
+
+
+**Data splitting**
+
+I generated two data sets: training (0.7) formed by 11776 instances and testing (0.3) formed by 7846.
+
+
+
+**Model generation**
+
+If I try to generate a model using all attributes, I have a out of memory problem. 
+I decided to use a tree classification algorithm.
+
+To solve this situation, I tried to generate a model selecting a small set of attributes that in my opinion could be significant:
+
+*Model 2 - roll_belt + pitch_belt + yaw_belt + total_accel_belt*
+
+The accuracy of this model is 0.8815, not so bad!
+
+*Model 3 - gyros_belt_x + gyros_belt_y + gyros_belt_z*
+
+The accuracy of this model is 0.45, not good.
+
+*Model 4 - all attributes of forearm*
+
+The accuracy of this model is 0.89, good!
+
+With these three models, I checked variable importance using varImp, to select which variables are the most significative. With this variables, I generated model5:
+
+*Model 5 -  pitch_forearm + roll_forearm + gyros_belt_z + roll_belt + yaw_belt + pitch_belt*
+
+The accuracy of this model is 0.96. With this result is demonstrating that selecting relevant attributes allow to obtaining better accuracy.
+
+
+**Validation**
+
+With model5, I performed the prediction of 20 instances. I obtained 19/20 correct results! 
+To retry to submit the result that is wrong, I reviewed confusion matrix of model5, for class that have the second number of missclassified results. And the answer is ok!
+
+
+
+**NOTE**: I can't load R results inside this document, getting an error that I can't resolved yet.
